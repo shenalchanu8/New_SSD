@@ -1,0 +1,62 @@
+# values.yaml for restaurant service
+
+# Application configuration
+app:
+  name: restaurant-service
+  port: 8081
+  replicaCount: 2
+  image:
+    repository: your-docker-repo/restaurant-service
+    tag: latest
+    pullPolicy: IfNotPresent
+
+# Database configuration
+database:
+  url: jdbc:mysql://mysql-service:3306/Authenticationest
+  username: root
+  password: sysadmin@123
+  driverClassName: com.mysql.cj.jdbc.Driver
+
+# External service URLs
+services:
+  auth:
+    url: http://auth-service:8082
+  order:
+    url: http://order-service:8084
+
+# Resource limits
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1024Mi"
+    cpu: "1000m"
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  prometheus:
+    scrape: true
+    path: "/actuator/prometheus"
+  metrics:
+    enabled: true
+
+# Liveness and readiness probes
+probes:
+  liveness:
+    path: /actuator/health
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    path: /actuator/health
+    initialDelaySeconds: 20
+    periodSeconds: 5
