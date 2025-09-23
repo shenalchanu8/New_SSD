@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { toSafeImageUrl } from './imageSafety';
 
 // Order status enum to match backend
 enum OrderStatus {
@@ -404,17 +405,19 @@ const createOrder = async () => {
                   <div key={item.id} className="flex justify-between items-center border-b pb-4">
                     <div className="flex items-center">
                       <div className="h-16 w-16 bg-gray-200 rounded-md overflow-hidden mr-4">
-                        {item.imageUrl ? (
-                          <img
-                            src={item.imageUrl || "/placeholder.svg"}
-                            alt={item.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex items-center justify-center h-full">
-                            <Utensils className="h-6 w-6 text-gray-400" />
-                          </div>
-                        )}
+                      {item.imageUrl ? (
+  <img
+    src={toSafeImageUrl(item.imageUrl)}
+    alt={String(item.name || '').slice(0, 80)}
+    className="w-full h-full object-cover"
+    loading="lazy"
+    referrerPolicy="no-referrer"
+  />
+) : (
+  <div className="flex items-center justify-center h-full">
+    <Utensils className="h-6 w-6 text-gray-400" />
+  </div>
+)}
                       </div>
                       <div>
                         <h3 className="font-medium">{item.name}</h3>
