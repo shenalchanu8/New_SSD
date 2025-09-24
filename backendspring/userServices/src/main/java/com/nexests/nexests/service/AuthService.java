@@ -8,7 +8,6 @@ import com.nexests.nexests.model.Role;
 import com.nexests.nexests.model.UserModel;
 import com.nexests.nexests.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,14 +25,6 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    // ------- values come from application.properties -> env/.env -------
-    @Value("${admin.username}") private String adminUsername;
-    @Value("${admin.email}")    private String adminEmail;
-    @Value("${admin.password}") private String adminPassword;
-    @Value("${admin.fullname}") private String adminFullName;
-    @Value("${admin.phone}")    private String adminPhone;
-    @Value("${admin.location}") private String adminLocation;
-
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -41,16 +32,15 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    // *** FIXED: no hardcoded strings; all read from env/.env ***
     public void initializeAdmin() {
-        if (!userRepository.existsByEmail(adminEmail)) {
+        if (!userRepository.existsByEmail("admin@food.com")) {
             UserModel admin = new UserModel();
-            admin.setFullName(adminFullName);
-            admin.setUsername(adminUsername);
-            admin.setEmail(adminEmail);
-            admin.setPhoneNumber(adminPhone);
-            admin.setLocation(adminLocation);
-            admin.setPassword(passwordEncoder.encode(adminPassword));
+            admin.setFullName("System Admin");
+            admin.setUsername("admin");
+            admin.setEmail("admin@food.com");
+            admin.setPhoneNumber("+1234567890");
+            admin.setLocation("Headquarters");
+            admin.setPassword(passwordEncoder.encode("password"));
             admin.setRole(Role.RESTAURANT_ADMIN);
             userRepository.save(admin);
         }
