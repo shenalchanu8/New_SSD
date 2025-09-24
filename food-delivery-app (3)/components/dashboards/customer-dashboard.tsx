@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { toSafeImageUrl } from './../../components/dashboards/imageSafety';
 
 // Order status enum to match backend
 enum OrderStatus {
