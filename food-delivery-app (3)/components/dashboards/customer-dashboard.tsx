@@ -869,13 +869,10 @@ const createOrder = async () => {
                     <div className="h-40 bg-gray-200 relative overflow-hidden">
                       {item.imageUrl ? (
                         <img
-  src={toSafeImageUrl(item.imageUrl)}
-  alt={String(item.name || "").slice(0, 80)}
-  className="w-full h-full object-cover"
-  loading="lazy"
-  referrerPolicy="no-referrer"
-  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-/>
+                          src={item.imageUrl || "/placeholder.svg"}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <div className="flex items-center justify-center h-full">
                           <Utensils className="h-10 w-10 text-gray-400" />
