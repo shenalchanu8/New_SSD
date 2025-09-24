@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { toSafeImageUrl } from './../../components/dashboards/imageSafety';
 
 export default function AdminDashboard({ user }) {
   const [activeTab, setActiveTab] = useState("overview")
@@ -1461,9 +1462,12 @@ export default function AdminDashboard({ user }) {
                                 <div className="flex items-center">
                                   <div className="flex-shrink-0 h-10 w-10 rounded-md bg-gray-200 overflow-hidden">
                                     <img
-                                      src={menu.imageUrl || "/placeholder.svg"}
-                                      alt={menu.name}
-                                      className="h-full w-full object-cover"
+                                        src={toSafeImageUrl(item.imageUrl)}
+                                        alt={String(item.name || "").slice(0, 80)}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer"
+                                        onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                                     />
                                   </div>
                                   <div className="ml-4">
