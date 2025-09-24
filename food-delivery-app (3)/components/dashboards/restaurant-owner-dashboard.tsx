@@ -29,7 +29,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
+import { toSafeImageUrl } from './../../components/dashboards/imageSafety';
+  
 export default function RestaurantOwnerDashboard({ user }) {
   const [activeTab, setActiveTab] = useState("overview")
   const [menuItems, setMenuItems] = useState([])
@@ -1005,10 +1006,14 @@ export default function RestaurantOwnerDashboard({ user }) {
                                 <div className="flex items-center">
                                   <div className="flex-shrink-0 h-10 w-10 rounded-md bg-gray-200 overflow-hidden">
                                     <img
-                                      src={item.imageUrl || "/placeholder.svg?height=100&width=100"}
-                                      alt={item.name}
-                                      className="h-full w-full object-cover"
-                                    />
+                                          src={toSafeImageUrl(item.imageUrl)}
+                                          alt={String(item.name || "").slice(0, 80)}
+                                          className="w-full h-full object-cover"
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer"
+                                          onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
+                                        />
+
                                   </div>
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">{item.name}</div>
