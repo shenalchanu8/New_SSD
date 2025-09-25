@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>12.8.1.jre11</version> <!-- or a recent stable -->
+            <version>12.10.1.jre11</version> <!-- or a recent stable -->
         </dependency>
 
         <!-- (Optional) spring-boot-starter-web if it's a web API -->
